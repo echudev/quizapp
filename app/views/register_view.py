@@ -25,7 +25,9 @@ class RegisterView:
     def register(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        self.controller.register(username, password)
+        if self.controller.register(username, password):
+            self.show_login()
+            return
 
     def show_login(self):
         self.root.destroy()

@@ -1,6 +1,6 @@
 import tkinter as tk
 from controllers.user_controller import UserController
-from views.register_view import RegisterView  
+from views.register_view import RegisterView 
 
 class LoginView:
     def __init__(self, root):
@@ -25,10 +25,19 @@ class LoginView:
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        self.controller.login(username, password)
+        if self.controller.login(username, password):
+            self.show_game()
+            return
 
     def show_register(self):
         self.root.destroy()
         root = tk.Tk()
         RegisterView(root)
+        root.mainloop()
+
+    def show_game(self):
+        self.root.destroy()
+        from views.game_view import GameView
+        root = tk.Tk()
+        GameView(root)
         root.mainloop()

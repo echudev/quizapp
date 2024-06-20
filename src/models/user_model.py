@@ -69,10 +69,10 @@ class User:
                 return False, "Nombre de usuario incorrecto"
             # si encuentra un password, lo des-hasheo y verifico que sea igual al que ingresó el usuario
             else: 
-
+                # Si coinciden, el usuario está logueado, sinó devuelve contraseña incorrecta
                 stored_hashed_password = password[0]
-                result = bcrypt.checkpw(contrasenia.encode('utf-8'), stored_hashed_password)
-                if result:
+                coinciden_passwords = bcrypt.checkpw(contrasenia.encode('utf-8'), stored_hashed_password)
+                if coinciden_passwords:
                     return True, f'Bienvenido {nombre}'
                 else:
                     return False, "Contraseña incorrecta"

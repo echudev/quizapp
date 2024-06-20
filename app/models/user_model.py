@@ -2,31 +2,7 @@ import sqlite3
 import bcrypt
 from database.run_query import run_query
 
-class User:
-    def __init__(self):
-        self.__nombre = None
-        self.__puntaje = 0
-        self.__historial = []
-
-    def set_nombre(self, nombre):
-        self.__nombre = nombre
-
-    def get_nombre(self):
-        return self.__nombre
-    
-    def set_puntaje(self, puntaje):
-        self.__puntaje += puntaje
-    
-    def get_puntaje(self):
-        return self.__puntaje
-    
-    def set_historial(self):
-        pass
-
-    def get_historial(self):
-        return self.__historial
-
-
+class UserModel:
     def usuario_existe(self, nombre):
         query = 'SELECT * FROM Usuarios WHERE nombre = ?'
         db = "./database/usuarios.db"
@@ -41,7 +17,6 @@ class User:
         query = 'INSERT INTO Usuarios (nombre, contrasenia) VALUES (?, ?)'
         db = "./database/usuarios.db"
         hashed_password = bcrypt.hashpw(contrasenia.encode('utf-8'), bcrypt.gensalt())
-
 
         try:
             run_query(query, db, (nombre, hashed_password))
@@ -79,4 +54,4 @@ class User:
                 
         except Exception as e:
             print(e)
-            return False
+            return False, "Error en la conexión con la base de datos"

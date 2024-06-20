@@ -1,9 +1,9 @@
-from models.user_model import User
+from models.user_model import UserModel
 from tkinter import messagebox
 
 class UserController:
     def __init__(self):
-        self.model = User()
+        self.model = UserModel()
 
     def register(self, nombre, contrasenia):
         try:

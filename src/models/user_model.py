@@ -1,4 +1,5 @@
 import sqlite3
+import bcrypt
 from database.run_query import run_query
 
 class User:
@@ -36,10 +37,14 @@ class User:
     def registrar_usuario(self, nombre, contrasenia):
         if self.usuario_existe(nombre):
             return False, "El nombre de usaurio ya existe!!"
+        
         query = 'INSERT INTO Usuarios (nombre, contrasenia) VALUES (?, ?)'
         db = "./database/usuarios.db"
+        hashed_password = bcrypt.hashpw(contrasenia.encode('utf-8'), bcrypt.gensalt())
+
+
         try:
-            run_query(query, db, (nombre, contrasenia))
+            run_query(query, db, (nombre, hashed_password))
             return True, "Usuario registrado correctamente"
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")
@@ -48,17 +53,30 @@ class User:
             print(f"Unexpected error in Usuario.registrar_usuario: {e}")
             return False
 
+
     def validar_usuario(self, nombre, contrasenia):
-        query = 'SELECT * FROM Usuarios WHERE nombre = ? AND contrasenia = ?'
+
+        query = 'SELECT contrasenia FROM Usuarios WHERE nombre = ?'
         db = "./database/usuarios.db"
+
         try:
-            response = run_query(query, db, (nombre, contrasenia))
-            user = response.fetchone()
-            print(user)
-            if user is None:
-                return False, "Nombre de usuario o contraseña incorrectos"
+            # primero chequeo que haya un password para el nombre de usuario
+            response = run_query(query, db, (nombre,))
+            password = response.fetchone()
+            
+            # si no encuentra nada, es porque el nombre de usuario no existe
+            if password is None:
+                return False, "Nombre de usuario incorrecto"
+            # si encuentra un password, lo des-hasheo y verifico que sea igual al que ingresó el usuario
             else: 
-                return True, f'Bienvenido {user[1]}'
+
+                stored_hashed_password = password[0]
+                result = bcrypt.checkpw(contrasenia.encode('utf-8'), stored_hashed_password)
+                if result:
+                    return True, f'Bienvenido {nombre}'
+                else:
+                    return False, "Contraseña incorrecta"
+                
         except Exception as e:
             print(e)
             return False

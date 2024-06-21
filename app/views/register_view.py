@@ -1,4 +1,5 @@
 import tkinter as tk
+import ttkbootstrap as ttk
 from controllers.user_controller import UserController  
 
 
@@ -32,6 +33,6 @@ class RegisterView:
     def show_login(self):
         self.root.destroy()
         from views.login_view import LoginView 
-        root = tk.Tk()
+        root = ttk.Window(themename='solar')
         LoginView(root)
         root.mainloop()

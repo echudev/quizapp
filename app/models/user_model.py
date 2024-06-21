@@ -23,10 +23,10 @@ class UserModel:
             return True, "Usuario registrado correctamente"
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")
-            return False
+            return False, "Error al registrar usuario"
         except Exception as e:
             print(f"Unexpected error in Usuario.registrar_usuario: {e}")
-            return False
+            return False, "Error inesperado"
 
 
     def validar_usuario(self, nombre, contrasenia):

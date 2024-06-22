@@ -3,6 +3,12 @@ import bcrypt
 from database.database import run_query, users_db
 
 class UserModel:
+    def _init__(self):
+        self.name = None
+    
+    def set_name(self, nombre):
+        self.name = nombre
+
     def usuario_existe(self, nombre):
         query = 'SELECT * FROM Usuarios WHERE nombre = ?'
         db = "./database/usuarios.db"
@@ -19,7 +25,8 @@ class UserModel:
 
         try:
             run_query(query, users_db, (nombre, hashed_password))
-            return True, "Usuario registrado correctamente"
+            self.set_name(nombre)
+            return True, f'Bienvenid@ {self.name}, te registraste correctamente'
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")
             return False, "Error al registrar usuario"
@@ -29,7 +36,6 @@ class UserModel:
 
 
     def validar_usuario(self, nombre, contrasenia):
-
         query = 'SELECT contrasenia FROM Usuarios WHERE nombre = ?'
 
         try:
@@ -46,7 +52,8 @@ class UserModel:
                 stored_hashed_password = password[0]
                 coinciden_passwords = bcrypt.checkpw(contrasenia.encode('utf-8'), stored_hashed_password)
                 if coinciden_passwords:
-                    return True, f'Bienvenido {nombre}'
+                    self.set_name(nombre)
+                    return True, f'Bienvenid@ {self.name}!'
                 else:
                     return False, "Contraseña incorrecta"
                 

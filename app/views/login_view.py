@@ -29,7 +29,7 @@ class LoginView(ttk.Frame):
         input_frame1.pack(pady=5)
         input_frame2.pack(pady=5)
         
-        login_button = ttk.Button(self, text='Ingresar', command=self.login)
+        login_button = ttk.Button(self, text='Ingresar', command=self.login_handler)
         login_button.pack(pady=2)
 
         ttk.Label(master=input_frame3, text="¿Todavía no tenés cuenta?", font=("Arial", 11)).pack()
@@ -39,11 +39,13 @@ class LoginView(ttk.Frame):
         
         self.pack()
 
-    def login(self):
+    def login_handler(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
+        # le paso usuario y contraseña al UserController, si la respuesta es True, muestro la pantalla de juego
         if self.controller.login(username, password):
             self.parent.show_frame("GameView")
 
     def go_to_register(self):
+        # vuelve a pantalla de registro
         self.parent.show_frame("RegisterView")

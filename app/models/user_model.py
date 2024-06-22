@@ -1,6 +1,6 @@
 import sqlite3
 import bcrypt
-from database.run_query import run_query
+from database.database import run_query, users_db
 
 class UserModel:
     def usuario_existe(self, nombre):
@@ -15,11 +15,10 @@ class UserModel:
             return False, "El nombre de usaurio ya existe!!"
         
         query = 'INSERT INTO Usuarios (nombre, contrasenia) VALUES (?, ?)'
-        db = "./database/usuarios.db"
         hashed_password = bcrypt.hashpw(contrasenia.encode('utf-8'), bcrypt.gensalt())
 
         try:
-            run_query(query, db, (nombre, hashed_password))
+            run_query(query, users_db, (nombre, hashed_password))
             return True, "Usuario registrado correctamente"
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")
@@ -32,11 +31,10 @@ class UserModel:
     def validar_usuario(self, nombre, contrasenia):
 
         query = 'SELECT contrasenia FROM Usuarios WHERE nombre = ?'
-        db = "./database/usuarios.db"
 
         try:
             # primero chequeo que haya un password para el nombre de usuario
-            response = run_query(query, db, (nombre,))
+            response = run_query(query, users_db, (nombre,))
             password = response.fetchone()
             
             # si no encuentra nada, es porque el nombre de usuario no existe

@@ -1,5 +1,5 @@
 from models.db import Pregunta, Respuesta
-from database.run_query import run_query
+from database.database import run_query
 
 class GameModel:
     def __init__(self):

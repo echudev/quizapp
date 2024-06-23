@@ -1,12 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
-from controllers.user_controller import UserController
 
 class RegisterView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
-        self.controller = UserController()
         self.username_entry = tk.StringVar()
         self.password_entry = tk.StringVar()
         self.password2_entry = tk.StringVar()
@@ -49,8 +47,8 @@ class RegisterView(ttk.Frame):
     def register(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        if self.controller.register(username, password):
-            self.parent.show_frame("GameView")
+        if self.parent.user_controller.register(username, password):
+            self.parent.show_frame("IntroView")
 
     def ir_a_login(self):
         self.parent.show_frame("LoginView")

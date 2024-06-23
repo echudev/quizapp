@@ -2,15 +2,21 @@ import ttkbootstrap as ttk
 from views.login_view import LoginView
 from views.game_view import GameView
 from views.register_view import RegisterView
+from views.intro_view import IntroView
+from controllers.user_controller import UserController
+from controllers.game_controller import GameController
 
 class App(ttk.Window):
     def __init__(self, *args, **kwargs):
         ttk.Window.__init__(self, *args, **kwargs)
+        self.user_controller = UserController()
+        self.game_controller = GameController()
         self.title('QuizApp')
         self.geometry('600x600')
         self.frames = {
             'LoginView': LoginView(self),
             'RegisterView': RegisterView(self),
+            'IntroView': IntroView(self),
             'GameView': GameView(self)
             }
     

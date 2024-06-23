@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from controllers.user_controller import UserController
 
 class LoginView(ttk.Frame):
     def __init__(self, parent):
@@ -9,7 +8,6 @@ class LoginView(ttk.Frame):
         self.username_entry = tk.StringVar()
         self.password_entry = tk.StringVar()
         self.password2_entry = tk.StringVar()
-        self.controller = UserController()
        
         login_label = ttk.Label(self, text="Ingresa con tu nombre de usuario", font=("Arial", 16))
         login_label.pack(pady=10)
@@ -43,8 +41,8 @@ class LoginView(ttk.Frame):
         username = self.username_entry.get()
         password = self.password_entry.get()
         # le paso usuario y contraseña al UserController, si la respuesta es True, muestro la pantalla de juego
-        if self.controller.login(username, password):
-            self.parent.show_frame("GameView")
+        if self.parent.user_controller.login(username, password):
+            self.parent.show_frame("IntroView")
 
     def go_to_register(self):
         # vuelve a pantalla de registro

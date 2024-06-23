@@ -1,28 +1,35 @@
-from models.db import Pregunta, Respuesta
-from database.database import run_query
+from database.database import run_query, preguntas_db
+from models.pregunta import Pregunta
+from models.respuesta import Respuesta
 
-class GameModel:
+class GameModel: 
     def __init__(self):
-        self.preguntas = []     
- 
-        
-    def set_preguntas(self):
-        query = 'SELECT * FROM Preguntas WHERE nivel_id = 1 ORDER BY RANDOM() LIMIT 3;'
-        path_db = "./database/preguntas.db"
-        rows = run_query(query, path_db)
-        for row in rows:  
-            # instancio la pregunta
-            enunciado, nivel = row[1], row[2]
-            nueva_pregunta = Pregunta(nivel, enunciado)
- 
-            # instancio las respuestas para la pregunta
-            query2 = 'SELECT * FROM Respuestas WHERE pregunta_id = ? ORDER BY RANDOM();'
-            rows2 = run_query(query2, path_db,(row[0],))
-            respuestas = []
-            for row_ in rows2:
-                 texto, correcta = row_[1], row_[2]
-                 nueva_respuesta = Respuesta(texto, correcta)
-                 respuestas.append(nueva_respuesta)
-            nueva_pregunta.set_respuestas(respuestas)
+        self.preguntas = []
+        self.nivel = 1
+        self.puntos = 0
+
+    def get_preguntas_nivel(self):
+        # 1) traigo 4 preguntas de la base de datos, en orden aleatorio, de un nivel determinado
+        query_preguntas = 'SELECT * FROM Preguntas WHERE nivel_id = ? ORDER BY RANDOM() LIMIT 4;'
+        rows_preguntas = run_query(query_preguntas, preguntas_db,(self.nivel,))
+        for row in rows_preguntas:  
+            pregunta_id, enunciado, nivel = row[0], row[1], row[2]
+            # 2) Creo la pregunta y traigo de la db las respuestas correspondientes
+            nueva_pregunta = Pregunta(pregunta_id, enunciado, nivel)
+            query_respuestas = 'SELECT * FROM Respuestas WHERE pregunta_id = ? ORDER BY RANDOM();'
+            rows_respuestas = run_query(query_respuestas, preguntas_db,(pregunta_id,))
+            for row in rows_respuestas:
+                id, texto, correcta = row[0], row[1], row[2]
+                nueva_pregunta.add_respuesta(Respuesta(id, texto, correcta))
             self.preguntas.append(nueva_pregunta)
         return self.preguntas
+
+    def next_level(self) -> int:
+        self.nivel += 1
+        self.preguntas = []
+        self.respuestas = []
+        return self.nivel
+    
+    def add_puntos(self, puntos: int) -> int:
+        self.puntos += puntos
+        return self.puntos

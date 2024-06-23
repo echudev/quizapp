@@ -1,17 +1,15 @@
 import sqlite3
 import bcrypt
+import tkinter as tk
 from database.database import run_query, users_db
 
 class UserModel:
     def __init__(self):
-        self.username = None
-
-    def set_name(self, newname):
-        self.username = newname
+        self.username = tk.StringVar(value="guest")
 
     def get_name(self):
-        print(self.username)
-        return self.username
+        print(self.username.get())
+        return self.username.get()
 
     def usuario_existe(self, nombre):
         query = 'SELECT * FROM Usuarios WHERE nombre = ?'
@@ -29,7 +27,7 @@ class UserModel:
 
         try:
             run_query(query, users_db, (nombre, hashed_password))
-            self.set_name(nombre)
+            self.username.set(nombre)
             return True, f'Bienvenid@ {self.username}, te registraste correctamente'
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")
@@ -56,8 +54,8 @@ class UserModel:
                 stored_hashed_password = password[0]
                 coinciden_passwords = bcrypt.checkpw(contrasenia.encode('utf-8'), stored_hashed_password)
                 if coinciden_passwords:
-                    self.set_name(nombre)
-                    return True, f'Bienvenid@ {self.username}!'
+                    self.username.set(nombre)
+                    return True, f'Bienvenid@ {self.username.get()}!'
                 else:
                     return False, "Contraseña incorrecta"
                 

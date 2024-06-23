@@ -10,7 +10,7 @@ class GameModel:
 
     def get_preguntas_nivel(self):
         # 1) traigo 4 preguntas de la base de datos, en orden aleatorio, de un nivel determinado
-        query_preguntas = 'SELECT * FROM Preguntas WHERE nivel_id = ? ORDER BY RANDOM() LIMIT 4;'
+        query_preguntas = 'SELECT * FROM Preguntas WHERE nivel_id = ? ORDER BY RANDOM() LIMIT 3;'
         rows_preguntas = run_query(query_preguntas, preguntas_db,(self.nivel,))
         for row in rows_preguntas:  
             pregunta_id, enunciado, nivel = row[0], row[1], row[2]

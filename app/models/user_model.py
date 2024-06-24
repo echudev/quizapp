@@ -11,14 +11,13 @@ class UserModel:
         print(self.username.get())
         return self.username.get()
 
-    def usuario_existe(self, nombre):
+    def usuario_existe(self, nombre: str) -> bool:
         query = 'SELECT * FROM Usuarios WHERE nombre = ?'
-        db = "./database/usuarios.db"
-        response = run_query(query, db, (nombre,))
+        response = run_query(query, users_db, (nombre,))
         user = response.fetchone()
         return user is not None
     
-    def registrar_usuario(self, nombre, contrasenia):
+    def registrar_usuario(self, nombre: str, contrasenia: str) -> tuple[bool, str]:
         if self.usuario_existe(nombre):
             return False, "El nombre de usaurio ya existe!!"
         
@@ -28,7 +27,7 @@ class UserModel:
         try:
             run_query(query, users_db, (nombre, hashed_password))
             self.username.set(nombre)
-            return True, f'Bienvenid@ {self.username}, te registraste correctamente'
+            return True, f'Bienvenid@ {self.username.get()}, te registraste correctamente'
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")
             return False, "Error al registrar usuario"
@@ -37,7 +36,7 @@ class UserModel:
             return False, "Error inesperado"
 
 
-    def validar_usuario(self, nombre, contrasenia):
+    def validar_usuario(self, nombre: str, contrasenia:str) -> tuple[bool, str]:
         query = 'SELECT contrasenia FROM Usuarios WHERE nombre = ?'
 
         try:

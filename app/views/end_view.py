@@ -14,9 +14,16 @@ class EndView(ttk.Frame):
         label_name = ttk.Label(text_frame, textvariable=self.parent.user_controller.user_model.username, font=("Arial", 20), foreground="lightgreen")
         label_name.pack(pady=20, side='left')
         text_frame.pack(pady=20, padx=20)
+        
+        text_frame2 = ttk.Frame(self)
+        points_label = ttk.Label(text_frame2, text=f'Hiciste', font=("Arial", 14))
+        points_label.pack(pady=20, side='left')
+        points_label2 = ttk.Label(text_frame2, textvariable=self.parent.game_controller.model.puntaje, font=("Arial", 20), foreground="lightgreen")
+        points_label2.pack(pady=20, side='left')
+        points_label3 = ttk.Label(text_frame2, text=f'puntos.', font=("Arial", 14))
+        points_label3.pack(pady=20, side='left')
+        text_frame2.pack(pady=20, padx=20)
 
-        intro_label = ttk.Label(self, text=f'Tu puntaje fue de: {self.parent.game_controller.get_puntos()}', font=("Arial", 14))
-        intro_label.pack(pady=2, padx=20)
     
         buttons_frame = ttk.Frame(self)
         play_again_button = ttk.Button(buttons_frame, text="Jugar de nuevo", padding=(20, 10), command = lambda: print('jugad de nuevo'))

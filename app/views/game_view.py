@@ -22,11 +22,11 @@ class GameView(ttk.Frame):
         self.enunciado = ttk.Label(self, text=self.preguntas[self.pregunta_actual.get()].enunciado, font=("Arial", 18), wraplength=550, anchor='center')
         self.enunciado.pack(pady=20, padx=20)
 
-        self.respuesta_buttons = []
+        self.respuesta_radiobuttons = []
         for i, respuesta in enumerate(self.preguntas[self.pregunta_actual.get()].respuestas):
             respuesta = ttk.Radiobutton(self, text=f'{respuesta.texto}', variable=self.selected_option, value=i)
             respuesta.pack(pady=10)
-            self.respuesta_buttons.append(respuesta)
+            self.respuesta_radiobuttons.append(respuesta)
 
 
         self.next_button = ttk.Button(self, text='Siguiente', command=self.siguiente_pregunta)
@@ -38,19 +38,22 @@ class GameView(ttk.Frame):
         self.enunciado.config(text=self.preguntas[self.pregunta_actual.get()].enunciado)
         self.next_button.pack_forget()
 
-        for button in self.respuesta_buttons:
+        for button in self.respuesta_radiobuttons:
             button.pack_forget()
 
-        self.respuesta_buttons = []
+        self.respuesta_radiobuttons = []
         for i, respuesta in enumerate(self.preguntas[self.pregunta_actual.get()].respuestas):
             respuesta_button = ttk.Radiobutton(self, text=f'{respuesta.texto}', variable=self.selected_option, value=i, style='TRadiobutton')
             respuesta_button.pack(pady=10)
-            self.respuesta_buttons.append(respuesta_button)
+            self.respuesta_radiobuttons.append(respuesta_button)
         self.next_button.pack(pady=30, side="bottom")
 
 
 
     def siguiente_pregunta(self):
+        puntos = self.preguntas[self.pregunta_actual.get()].respuestas[self.selected_option.get()].correcta * 10 * self.parent.game_controller.model.nivel
+        self.parent.game_controller.add_puntos(puntos)
+        print(self.parent.game_controller.get_puntos())
         if self.pregunta_actual.get() >= len(self.preguntas)-1:
             self.siguiente_nivel()
         else:

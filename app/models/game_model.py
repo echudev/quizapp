@@ -32,5 +32,5 @@ class GameModel:
         return self.nivel
     
     def add_puntos(self, puntos: int) -> int:
-        self.puntaje.set(self.puntaje.get8() + puntos)
+        self.puntaje.set(self.puntaje.get() + puntos)
         return self.puntaje.get()

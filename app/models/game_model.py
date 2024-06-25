@@ -1,3 +1,4 @@
+import tkinter as tk
 from database.database import run_query, preguntas_db
 from models.pregunta import Pregunta
 from models.respuesta import Respuesta
@@ -6,10 +7,10 @@ class GameModel:
     def __init__(self):
         self.preguntas = []
         self.nivel = 1
-        self.puntos = 0
+        self.puntaje = tk.IntVar(value=0)
 
     def get_preguntas_nivel(self):
-        # 1) traigo 4 preguntas de la base de datos, en orden aleatorio, de un nivel determinado
+        # 1) traigo 3 preguntas de la base de datos, en orden aleatorio, de un nivel determinado
         query_preguntas = 'SELECT * FROM Preguntas WHERE nivel_id = ? ORDER BY RANDOM() LIMIT 3;'
         rows_preguntas = run_query(query_preguntas, preguntas_db,(self.nivel,))
         for row in rows_preguntas:  
@@ -31,5 +32,5 @@ class GameModel:
         return self.nivel
     
     def add_puntos(self, puntos: int) -> int:
-        self.puntos += puntos
-        return self.puntos
+        self.puntaje.set(self.puntaje.get8() + puntos)
+        return self.puntaje.get()

@@ -57,7 +57,6 @@ class UserModel:
                     return True, f'Bienvenid@ {self.username.get()}!'
                 else:
                     return False, "Contraseña incorrecta"
-                
         except Exception as e:
             print(e)
             return False, "Error en la conexión con la base de datos"

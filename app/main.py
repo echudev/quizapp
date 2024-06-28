@@ -4,6 +4,7 @@ from views.game_view import GameView
 from views.register_view import RegisterView
 from views.intro_view import IntroView
 from views.end_view import EndView
+from views.profile_view import ProfileView
 from controllers.user_controller import UserController
 from controllers.game_controller import GameController
 
@@ -19,6 +20,7 @@ class App(ttk.Window):
             'RegisterView': RegisterView(self),
             'IntroView': IntroView(self),
             'GameView': GameView(self),
+            'ProfileView': ProfileView(self),
             'EndView': EndView(self)
             }
     

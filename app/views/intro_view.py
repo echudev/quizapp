@@ -26,6 +26,7 @@ class IntroView(ttk.Frame):
         exit_button.pack(pady=10)
     
     def start_game(self):
+        self.parent.game_controller.reset_game()
         self.parent.show_frame('GameView')
 
     def goto_profile(self):

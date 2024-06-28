@@ -29,6 +29,9 @@ class App(ttk.Window):
     def show_frame(self, frame_name):
         for frame in self.frames.keys():
             if frame == frame_name:
+                if frame == 'GameView':
+                    self.frames[frame].destroy() 
+                    self.frames[frame] = GameView(self)
                 self.frames[frame].pack(fill='both', expand=True)
             else:
                 self.frames[frame].forget()

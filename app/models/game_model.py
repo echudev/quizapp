@@ -42,6 +42,13 @@ class GameModel:
                 nueva_pregunta.add_respuesta(Respuesta(id, texto, correcta))
             self.preguntas.append(nueva_pregunta)
         return self.preguntas
+    
+    def reset_game(self):
+        self.nivel = 1
+        self.preguntas = []
+        self.puntaje.set(0)
+        self.pregunta_actual.set(0)
+        self.contador_preguntas.set(1)
 
     def next_level(self) -> int:
         self.nivel += 1

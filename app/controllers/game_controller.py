@@ -5,7 +5,9 @@ class GameController:
     def __init__(self):
         self.model = GameModel()
 
-
+    def reset_game(self):
+        return self.model.reset_game()
+    
     def get_preguntas(self) -> list[Pregunta]:
         return self.model.get_preguntas_nivel()
       

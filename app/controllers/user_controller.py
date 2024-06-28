@@ -37,6 +37,15 @@ class UserController:
             messagebox.showerror("Error")
             return False
         
+    def guardar_resultado(self, puntos: int):
+        try:
+            self.user_model.guardar_resultado(puntos)
+            print("Resultado guardado")
+            return True
+        except Exception as e:
+            print(f"Error in UserController.guardar_resultado: {e}")
+            return False
+        
     def logout(self):
         try:
             success, message = self.user_model.logout()

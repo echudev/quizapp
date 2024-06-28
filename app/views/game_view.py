@@ -60,7 +60,6 @@ class GameView(ttk.Frame):
 
         puntos = self.preguntas[pregunta_actual].respuestas[self.selected_option.get()].correcta * 10 * self.parent.game_controller.model.nivel
         self.parent.game_controller.add_puntos(puntos)
-        print(self.parent.game_controller.get_puntos())
         if pregunta_actual >= len(self.preguntas)-1:
             self.siguiente_nivel()
         else:
@@ -71,8 +70,10 @@ class GameView(ttk.Frame):
     
     def siguiente_nivel(self):
         contador = self.parent.game_controller.get_contador_preguntas()
+        puntos = self.parent.game_controller.get_puntos()
         # si alcanza nivel 5, muestra la pantalla de resultados (solo hay preguntas hasta nivel 4)
         if self.parent.game_controller.next_level() == 5:
+            self.parent.user_controller.guardar_resultado(puntos)
             self.parent.show_frame('EndView')
             return 
         # sino, vuelve a generar preguntas con el nuevo nivel 

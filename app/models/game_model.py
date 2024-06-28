@@ -8,6 +8,24 @@ class GameModel:
         self.preguntas = []
         self.nivel = 1
         self.puntaje = tk.IntVar(value=0)
+        self.pregunta_actual = tk.IntVar(value=0)
+        self.contador_preguntas = tk.IntVar(value=1)
+    
+
+    def get_puntaje(self):
+        return self.puntaje.get()
+    
+    def get_pregunta_actual(self):
+        return self.pregunta_actual.get()
+    
+    def set_pregunta_actual(self, num: int):
+        return self.pregunta_actual.set(num)
+    
+    def get_contador_preguntas(self):
+        return self.contador_preguntas.get()
+    
+    def set_contador(self, num: int):
+        return self.contador_preguntas.set(num)
 
     def get_preguntas_nivel(self):
         # 1) traigo 3 preguntas de la base de datos, en orden aleatorio, de un nivel determinado

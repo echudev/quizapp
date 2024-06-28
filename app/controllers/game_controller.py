@@ -17,3 +17,15 @@ class GameController:
     
     def add_puntos(self, puntos: int) -> int:
         return self.model.add_puntos(puntos)
+    
+    def get_pregunta_actual(self):
+        return self.model.get_pregunta_actual()
+    
+    def set_pregunta_actual(self, num: int):
+        return self.model.set_pregunta_actual(num)
+    
+    def get_contador_preguntas(self):
+        return self.model.get_contador_preguntas()
+    
+    def set_contador(self, num: int):
+        return self.model.set_contador(num)

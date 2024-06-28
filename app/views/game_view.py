@@ -9,21 +9,22 @@ class GameView(ttk.Frame):
         self.s.configure('TRadiobutton', font=('Helvetica', 16))
 
         self.preguntas = self.parent.game_controller.get_preguntas()
-        self.pregunta_actual = tk.IntVar(value=0)
-        self.contador_preguntas = tk.IntVar(value=1)
         self.selected_option = tk.IntVar()
 
         self.mostrar_pregunta_en_pantalla()
 
     def mostrar_pregunta_en_pantalla(self):
-        self.intro_label = ttk.Label(self, text=f'Pregunta {self.contador_preguntas.get()}', font=("Arial", 12))
+        pregunta_actual = self.parent.game_controller.get_pregunta_actual()
+        contador = self.parent.game_controller.get_contador_preguntas()
+        
+        self.intro_label = ttk.Label(self, text=f'Pregunta {contador}', font=("Arial", 12))
         self.intro_label.pack(pady=10, padx=20, anchor='w')
 
-        self.enunciado = ttk.Label(self, text=self.preguntas[self.pregunta_actual.get()].enunciado, font=("Arial", 18), wraplength=550, anchor='center')
+        self.enunciado = ttk.Label(self, text=self.preguntas[pregunta_actual].enunciado, font=("Arial", 18), wraplength=550, anchor='center')
         self.enunciado.pack(pady=20, padx=20)
 
         self.respuesta_radiobuttons = []
-        for i, respuesta in enumerate(self.preguntas[self.pregunta_actual.get()].respuestas):
+        for i, respuesta in enumerate(self.preguntas[pregunta_actual].respuestas):
             respuesta = ttk.Radiobutton(self, text=f'{respuesta.texto}', variable=self.selected_option, value=i)
             respuesta.pack(pady=10)
             self.respuesta_radiobuttons.append(respuesta)
@@ -34,15 +35,18 @@ class GameView(ttk.Frame):
 
     
     def actualizar_pregunta_en_pantalla(self):
-        self.intro_label.config(text=f'Pregunta {self.contador_preguntas.get()}')
-        self.enunciado.config(text=self.preguntas[self.pregunta_actual.get()].enunciado)
+        pregunta_actual = self.parent.game_controller.get_pregunta_actual()
+        contador = self.parent.game_controller.get_contador_preguntas()
+
+        self.intro_label.config(text=f'Pregunta {contador}')
+        self.enunciado.config(text=self.preguntas[pregunta_actual].enunciado)
         self.next_button.pack_forget()
 
         for button in self.respuesta_radiobuttons:
             button.pack_forget()
 
         self.respuesta_radiobuttons = []
-        for i, respuesta in enumerate(self.preguntas[self.pregunta_actual.get()].respuestas):
+        for i, respuesta in enumerate(self.preguntas[pregunta_actual].respuestas):
             respuesta_button = ttk.Radiobutton(self, text=f'{respuesta.texto}', variable=self.selected_option, value=i, style='TRadiobutton')
             respuesta_button.pack(pady=10)
             self.respuesta_radiobuttons.append(respuesta_button)
@@ -51,24 +55,28 @@ class GameView(ttk.Frame):
 
 
     def siguiente_pregunta(self):
-        puntos = self.preguntas[self.pregunta_actual.get()].respuestas[self.selected_option.get()].correcta * 10 * self.parent.game_controller.model.nivel
+        pregunta_actual = self.parent.game_controller.get_pregunta_actual()
+        contador = self.parent.game_controller.get_contador_preguntas()
+
+        puntos = self.preguntas[pregunta_actual].respuestas[self.selected_option.get()].correcta * 10 * self.parent.game_controller.model.nivel
         self.parent.game_controller.add_puntos(puntos)
         print(self.parent.game_controller.get_puntos())
-        if self.pregunta_actual.get() >= len(self.preguntas)-1:
+        if pregunta_actual >= len(self.preguntas)-1:
             self.siguiente_nivel()
         else:
-            self.pregunta_actual.set(self.pregunta_actual.get() +1)  
-            self.contador_preguntas.set(self.contador_preguntas.get() +1)
+            self.parent.game_controller.set_pregunta_actual(pregunta_actual + 1)
+            self.parent.game_controller.set_contador(contador + 1)
             self.actualizar_pregunta_en_pantalla()  
        
     
     def siguiente_nivel(self):
+        contador = self.parent.game_controller.get_contador_preguntas()
         # si alcanza nivel 5, muestra la pantalla de resultados (solo hay preguntas hasta nivel 4)
         if self.parent.game_controller.next_level() == 5:
             self.parent.show_frame('EndView')
             return 
         # sino, vuelve a generar preguntas con el nuevo nivel 
         self.preguntas = self.parent.game_controller.get_preguntas()
-        self.pregunta_actual.set(0)
-        self.contador_preguntas.set(self.contador_preguntas.get() +1)
+        self.parent.game_controller.set_pregunta_actual(0)
+        self.parent.game_controller.set_contador(contador +1)
         self.actualizar_pregunta_en_pantalla()

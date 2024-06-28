@@ -14,8 +14,9 @@ class EndView(ttk.Frame):
         label_name = ttk.Label(text_frame, textvariable=self.parent.user_controller.user_model.username, font=("Arial", 20), foreground="lightgreen")
         label_name.pack(pady=20, side='left')
         text_frame.pack(pady=20, padx=20)
+
         label2 = ttk.Label(text_frame, text=f'Llegaste al final!', font=("Arial", 20))
-        label2.pack(pady=20)
+        label2.pack(pady=20, side='left')
         
         text_frame2 = ttk.Frame(self)
         points_label = ttk.Label(text_frame2, text=f'Hiciste', font=("Arial", 14))
@@ -28,7 +29,7 @@ class EndView(ttk.Frame):
 
     
         play_again_button = ttk.Button(self, text="Volver", padding=(20, 10), command = self.volver)
-        play_again_button.pack(padx=5, side='left')
+        play_again_button.pack(pady=20)
     
     
     def volver(self):

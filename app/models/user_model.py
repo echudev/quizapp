@@ -61,3 +61,7 @@ class UserModel:
         except Exception as e:
             print(e)
             return False, "Error en la conexión con la base de datos"
+        
+    def logout(self):
+        self.username.set("")
+        return True, "Hasta luego!"

@@ -36,3 +36,17 @@ class UserController:
             print(f"Error in UserController.register: {e}")
             messagebox.showerror("Error")
             return False
+        
+    def logout(self):
+        try:
+            success, message = self.user_model.logout()
+            if success:
+                messagebox.showinfo("Hasta luego!", message)
+                return True
+            else:
+                messagebox.showerror("Error", message)
+                return False
+        except Exception as e:
+            print(f"Error in UserController.register: {e}")
+            messagebox.showerror("Error")
+            return False

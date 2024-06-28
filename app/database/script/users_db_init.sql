@@ -9,6 +9,8 @@ CREATE TABLE Usuarios (
 
 CREATE TABLE HistorialPartidas (
     id INTEGER PRIMARY KEY,
+    fecha VARCHAR(10) NOT NULL,
+    hora VARCHAR(6) NOT NULL,
     usuarios_id INTEGER NOT NULL,
     tiempo INTEGER NOT NULL,
     puntaje INTEGER NOT NULL,

@@ -12,7 +12,7 @@ CREATE TABLE HistorialPartidas (
     fecha VARCHAR(10) NOT NULL,
     hora VARCHAR(6) NOT NULL,
     usuarios_id INTEGER NOT NULL,
-    tiempo INTEGER NOT NULL,
+    tiempo INTEGER,
     puntaje INTEGER NOT NULL,
     FOREIGN KEY (usuarios_id) REFERENCES Usuarios(id)
 );

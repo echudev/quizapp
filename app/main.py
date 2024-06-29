@@ -46,7 +46,7 @@ class App(ttk.Window):
         # Creo el frame de nuevo cada vez que se llama a show_frame, 
         # para que se cree con los datos de usuario actualizados
         self.frames[frame_name] = self.create_frame(frame_name)
-        self.frames[frame_name].pack(fill='both', expand=True)
+        self.frames[frame_name].pack(fill='both', expand=True, padx=10, pady=10)
 
 
     

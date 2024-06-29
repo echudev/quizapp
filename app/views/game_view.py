@@ -5,6 +5,8 @@ class GameView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent) 
         self.parent = parent
+        self.parent.title('Quizapp')
+
         self.s = ttk.Style()
         self.s.configure('TRadiobutton', font=('Helvetica', 16))
 

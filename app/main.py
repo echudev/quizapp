@@ -16,27 +16,38 @@ class App(ttk.Window):
         self.game_controller = GameController()
         self.title('QuizApp')
         self.geometry('600x600')
-        self.frames = {
-            'LoginView': LoginView(self),
-            'RegisterView': RegisterView(self),
-            'IntroView': IntroView(self),
-            'GameView': GameView(self),
-            'ProfileView': ProfileView(self),
-            'EndView': EndView(self),
-            'ScoreTableView': ScoreTableView(self)
-            }
+        self.frames = {}
     
         self.show_frame('LoginView')
 
+    def create_frame(self, frame_name):
+        if frame_name == 'LoginView':
+            return LoginView(self)
+        elif frame_name == 'RegisterView':
+            return RegisterView(self)
+        elif frame_name == 'IntroView':
+            return IntroView(self)
+        elif frame_name == 'GameView':
+            return GameView(self)
+        elif frame_name == 'ProfileView':
+            return ProfileView(self)
+        elif frame_name == 'EndView':
+            return EndView(self)
+        elif frame_name == 'ScoreTableView':
+            return ScoreTableView(self)
+        else:
+            raise ValueError(f"Unknown frame name: {frame_name}")
+
     def show_frame(self, frame_name):
-        for frame in self.frames.keys():
-            if frame == frame_name:
-                if frame == 'GameView':
-                    self.frames[frame].destroy() 
-                    self.frames[frame] = GameView(self)
-                self.frames[frame].pack(fill='both', expand=True)
-            else:
-                self.frames[frame].forget()
+        # Destruyo frames existentes para asegurar que solo uno esté visible
+        for frame in self.frames.values():
+            frame.destroy()
+
+        # Creo el frame de nuevo cada vez que se llama a show_frame, 
+        # para que se cree con los datos de usuario actualizados
+        self.frames[frame_name] = self.create_frame(frame_name)
+        self.frames[frame_name].pack(fill='both', expand=True)
+
 
     
     def run(self):

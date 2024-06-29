@@ -26,8 +26,8 @@ class EndView(ttk.Frame):
         text_frame2.pack(pady=20, padx=20)
 
     
-        play_again_button = ttk.Button(self, text="Volver", padding=(20, 10), command = self.volver)
-        play_again_button.pack(pady=20)
+        goback_button = ttk.Button(self, text="Volver", padding=(20, 10), command = self.volver)
+        goback_button.pack(pady=20)
     
     
     def volver(self):

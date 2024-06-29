@@ -5,6 +5,7 @@ from views.register_view import RegisterView
 from views.intro_view import IntroView
 from views.end_view import EndView
 from views.profile_view import ProfileView
+from views.scoretable_view import ScoreTableView
 from controllers.user_controller import UserController
 from controllers.game_controller import GameController
 
@@ -21,7 +22,8 @@ class App(ttk.Window):
             'IntroView': IntroView(self),
             'GameView': GameView(self),
             'ProfileView': ProfileView(self),
-            'EndView': EndView(self)
+            'EndView': EndView(self),
+            'ScoreTableView': ScoreTableView(self)
             }
     
         self.show_frame('LoginView')

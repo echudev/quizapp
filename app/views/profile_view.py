@@ -31,7 +31,7 @@ class ProfileView(ttk.Frame):
         mejor_puntaje.pack(pady=10, padx=5, side="left")
         mejor_puntaje_frame.pack(pady=10)
 
-        historial_button = ttk.Button(self, text="Historial", padding=(20, 10), command = lambda: print('ver historial'))
+        historial_button = ttk.Button(self, text="Historial", padding=(20, 10), command = self.ver_historial)
         historial_button.pack(padx=10, pady=10)
     
         play_again_button = ttk.Button(self, text="Volver", padding=(20, 10), command = self.volver)
@@ -40,3 +40,6 @@ class ProfileView(ttk.Frame):
     
     def volver(self):
         self.parent.show_frame('IntroView')
+
+    def ver_historial(self):
+        self.parent.show_frame('ScoreTableView')

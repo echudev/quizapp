@@ -4,6 +4,7 @@ class IntroView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent) 
         self.parent = parent
+        self.parent.title('Quizapp')
                
         label = ttk.Label(self, text=f'Bienvenido a PythonQuizados', font=("Arial", 20))
         label.pack(pady=20)

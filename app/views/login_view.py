@@ -5,6 +5,7 @@ class LoginView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
+        self.parent.title('Quizapp - Login')
         self.username_entry = tk.StringVar()
         self.password_entry = tk.StringVar()
         self.password2_entry = tk.StringVar()

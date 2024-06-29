@@ -12,7 +12,6 @@ class ScoreTableView(ttk.Frame):
                
 
     def show_table(self):
-        print(self.data)
         # creo un contenedor para la tabla y el scrollbar
         container = ttk.Frame(self)
         container.pack(fill=tk.BOTH, expand=True)

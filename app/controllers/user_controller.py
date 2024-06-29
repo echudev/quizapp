@@ -45,14 +45,14 @@ class UserController:
             print(f"Error in UserController.guardar_resultado: {e}")
             return False
     
-    def get_mejor_puntaje(self) -> int| bool:
+    def get_mejor_puntaje(self) -> int| None | bool:
         try:
             return self.user_model.get_mejor_puntaje()
         except Exception as e:
             print(f"Error in UserController.get_user_stats: {e}")
             return False
         
-    def get_partidas_jugadas(self) -> int| bool:
+    def get_partidas_jugadas(self) -> int| None | bool:
         try:
             return self.user_model.get_partidas_jugadas()
         except Exception as e:

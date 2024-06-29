@@ -15,7 +15,7 @@ class GameController:
         return self.model.next_level()
     
     def get_puntos(self):
-        return self.model.puntaje.get()
+        return self.model.get_puntaje()
     
     def add_puntos(self, puntos: int) -> int:
         return self.model.add_puntos(puntos)

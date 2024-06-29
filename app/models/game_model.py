@@ -7,25 +7,27 @@ class GameModel:
     def __init__(self):
         self.preguntas = []
         self.nivel = 1
-        self.puntaje = tk.IntVar(value=0)
-        self.pregunta_actual = tk.IntVar(value=0)
-        self.contador_preguntas = tk.IntVar(value=1)
+        self.puntaje = 0
+        self.pregunta_actual = 0
+        self.contador_preguntas = 1
     
 
-    def get_puntaje(self):
-        return self.puntaje.get()
+    def get_puntaje(self) -> int:
+        return self.puntaje
     
-    def get_pregunta_actual(self):
-        return self.pregunta_actual.get()
+    def get_pregunta_actual(self) -> int:
+        return self.pregunta_actual
     
-    def set_pregunta_actual(self, num: int):
-        return self.pregunta_actual.set(num)
+    def set_pregunta_actual(self, num: int) -> int:
+        self.pregunta_actual = num
+        return self.pregunta_actual
     
-    def get_contador_preguntas(self):
-        return self.contador_preguntas.get()
+    def get_contador_preguntas(self) -> int:
+        return self.contador_preguntas
     
     def set_contador(self, num: int):
-        return self.contador_preguntas.set(num)
+        self.contador_preguntas = num
+        return self.contador_preguntas
 
     def get_preguntas_nivel(self) -> list[Pregunta]:
         # 1) traigo 3 preguntas de la base de datos, en orden aleatorio, de un nivel determinado
@@ -46,9 +48,9 @@ class GameModel:
     def reset_game(self):
         self.nivel = 1
         self.preguntas = []
-        self.puntaje.set(0)
-        self.pregunta_actual.set(0)
-        self.contador_preguntas.set(1)
+        self.puntaje = 0
+        self.pregunta_actual = 0
+        self.contador_preguntas = 1
 
     def next_level(self) -> int:
         self.nivel += 1
@@ -57,5 +59,5 @@ class GameModel:
         return self.nivel
     
     def add_puntos(self, puntos: int) -> int:
-        self.puntaje.set(self.puntaje.get() + puntos)
-        return self.puntaje.get()
+        self.puntaje = self.puntaje + puntos
+        return self.puntaje

@@ -8,9 +8,10 @@ class UserModel:
     def __init__(self):
         self.username = tk.StringVar(value="")
         self.user_id = tk.IntVar(value=0)
+        self.mejor_puntaje = tk.IntVar(value=0)
+        self.partidas_jugadas = tk.IntVar(value=0)
 
     def get_name(self):
-        print(self.username.get())
         return self.username.get()
 
     def usuario_existe(self, nombre: str) -> bool:
@@ -60,6 +61,7 @@ class UserModel:
                 if coinciden_passwords:
                     self.username.set(nombre)
                     self.user_id.set(id)
+                    self.set_player_stats()
                     return True, f'Bienvenid@ {self.username.get()}!'
                 else:
                     return False, "Contraseña incorrecta"
@@ -68,16 +70,40 @@ class UserModel:
             return False, "Error en la conexión con la base de datos"
     
     def guardar_resultado(self, puntaje: int) -> bool:
+        # Guardo el resultado de la partida en la base de datos
         current_date = datetime.now().strftime("%Y-%m-%d")
         current_time = datetime.now().strftime("%H:%M:%S")
         id = self.user_id.get()
         query = 'INSERT INTO HistorialPartidas (fecha, hora, usuarios_id, puntaje) VALUES (?, ?, ?, ?)'
         try:
             run_query(query, users_db, (current_date, current_time, id, puntaje))
+            #Actualizo el puntaje y partidas jugadas del usuario, en la sesión actual
+            self.set_player_stats()
             return True
         except Exception as e:
             print(f"Unexpected error in Usuario.guardar_resultado: {e}")
             return False
+    
+    def set_player_stats(self):
+        query = 'SELECT MAX(puntaje), COUNT(puntaje) FROM HistorialPartidas WHERE usuarios_id = ?'
+        id = self.user_id.get()
+        response = run_query(query, users_db, (id,))
+        row = response.fetchone()
+        max_puntaje, partidas_jugadas = row[0], row[1]
+
+        self.partidas_jugadas.set(partidas_jugadas)
+        self.mejor_puntaje.set(max_puntaje)
+
+    def get_player_stats(self) -> tuple[int, int]:
+        return self.mejor_puntaje.get(), self.partidas_jugadas.get()
+
+    
+    def get_historial_partidas(self) -> list[tuple[str, str, int]]:
+        query = 'SELECT fecha, hora, puntaje FROM HistorialPartidas WHERE usuarios_id = ?'
+        id = self.user_id.get()
+        response = run_query(query, users_db, (id,))
+        rows = response.fetchall()
+        return rows
 
         
     def logout(self):

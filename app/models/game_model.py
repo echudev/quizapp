@@ -27,7 +27,7 @@ class GameModel:
     def set_contador(self, num: int):
         return self.contador_preguntas.set(num)
 
-    def get_preguntas_nivel(self):
+    def get_preguntas_nivel(self) -> list[Pregunta]:
         # 1) traigo 3 preguntas de la base de datos, en orden aleatorio, de un nivel determinado
         query_preguntas = 'SELECT * FROM Preguntas WHERE nivel_id = ? ORDER BY RANDOM() LIMIT 3;'
         rows_preguntas = run_query(query_preguntas, preguntas_db,(self.nivel,))

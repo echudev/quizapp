@@ -45,14 +45,22 @@ class UserController:
             print(f"Error in UserController.guardar_resultado: {e}")
             return False
     
-    def get_player_stats(self) -> tuple[int, int] | bool:
+    def get_mejor_puntaje(self) -> int| bool:
         try:
-            return self.user_model.get_player_stats()
+            return self.user_model.get_mejor_puntaje()
+        except Exception as e:
+            print(f"Error in UserController.get_user_stats: {e}")
+            return False
+        
+    def get_partidas_jugadas(self) -> int| bool:
+        try:
+            return self.user_model.get_partidas_jugadas()
         except Exception as e:
             print(f"Error in UserController.get_user_stats: {e}")
             return False
     
-    def get_historial_partidas(self) -> list[tuple[str, str, int]] | bool:
+    
+    def get_historial_partidas(self) -> list | bool:
         try:
             return self.user_model.get_historial_partidas()
         except Exception as e:

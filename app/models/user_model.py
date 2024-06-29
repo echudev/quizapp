@@ -10,6 +10,7 @@ class UserModel:
         self.user_id = tk.IntVar(value=0)
         self.mejor_puntaje = tk.IntVar(value=0)
         self.partidas_jugadas = tk.IntVar(value=0)
+        self.historial_partidas = []
 
     def get_name(self):
         return self.username.get()
@@ -62,6 +63,7 @@ class UserModel:
                     self.username.set(nombre)
                     self.user_id.set(id)
                     self.set_player_stats()
+                    self.set_historial_partidas()
                     return True, f'Bienvenid@ {self.username.get()}!'
                 else:
                     return False, "Contraseña incorrecta"
@@ -79,6 +81,7 @@ class UserModel:
             run_query(query, users_db, (current_date, current_time, id, puntaje))
             #Actualizo el puntaje y partidas jugadas del usuario, en la sesión actual
             self.set_player_stats()
+            self.set_historial_partidas()
             return True
         except Exception as e:
             print(f"Unexpected error in Usuario.guardar_resultado: {e}")
@@ -94,18 +97,24 @@ class UserModel:
         self.partidas_jugadas.set(partidas_jugadas)
         self.mejor_puntaje.set(max_puntaje)
 
-    def get_player_stats(self) -> tuple[int, int]:
-        return self.mejor_puntaje.get(), self.partidas_jugadas.get()
+    def get_mejor_puntaje(self) -> int:
+        return self.mejor_puntaje.get()
+    
+    def get_partidas_jugadas(self) -> int:
+        return self.partidas_jugadas.get()
 
     
-    def get_historial_partidas(self) -> list[tuple[str, str, int]]:
+    def set_historial_partidas(self):
         query = 'SELECT fecha, hora, puntaje FROM HistorialPartidas WHERE usuarios_id = ?'
         id = self.user_id.get()
         response = run_query(query, users_db, (id,))
         rows = response.fetchall()
-        return rows
+        self.historial_partidas = rows
+    
+    def get_historial_partidas(self):
+        return self.historial_partidas
+    
 
-        
     def logout(self):
         self.username.set("")
         self.user_id.set(0)

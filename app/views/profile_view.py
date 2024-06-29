@@ -4,7 +4,8 @@ class ProfileView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent) 
         self.parent = parent
-               
+        self.parent.title('Quizapp - Perfil')    
+
         username_frame = ttk.Frame(self)
         username_label = ttk.Label(username_frame, text="Nombre de usuario:", font=("Arial", 14))
         username_label.pack(pady=10, padx=5, side="left")

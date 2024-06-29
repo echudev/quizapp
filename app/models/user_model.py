@@ -6,8 +6,8 @@ from database.database import run_query, users_db
 
 class UserModel:
     def __init__(self):
-        self.username = tk.StringVar(value="guest")
-        self.user_id = tk.IntVar(value=None)
+        self.username = tk.StringVar(value="")
+        self.user_id = tk.IntVar(value=0)
 
     def get_name(self):
         print(self.username.get())
@@ -82,4 +82,5 @@ class UserModel:
         
     def logout(self):
         self.username.set("")
+        self.user_id.set(0)
         return True, "Hasta luego!"

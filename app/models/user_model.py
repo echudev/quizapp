@@ -21,19 +21,28 @@ class UserModel:
         row = response.fetchone()
         return row is not None
     
+    def input_length(self, input: str) -> bool:
+        return len(input) >= 4 and len(input) <= 15
+    
     def registrar_usuario(self, nombre: str, contrasenia: str) -> tuple[bool, str]:
         if self.usuario_existe(nombre):
             return False, "El nombre de usaurio ya existe!!"
+        
+        if not self.input_length(nombre):
+            return False, "El nombre de usuario debe tener entre 4 y 15 caracteres"
+        
+        if not self.input_length(contrasenia):
+            return False, "La contraseña debe tener entre 4 y 15 caracteres"
         
         query = 'INSERT INTO Usuarios (nombre, contrasenia) VALUES (?, ?)'
         hashed_password = bcrypt.hashpw(contrasenia.encode('utf-8'), bcrypt.gensalt())
 
         try:
             run_query(query, users_db, (nombre, hashed_password))
-            self.username = nombre
             row = run_query('SELECT id FROM Usuarios WHERE nombre = ?', users_db, (nombre,))
-            user = row.fetchone()
-            self.user_id = user[0]
+            user_data = row.fetchone()
+            self.user_id = user_data[0]
+            self.username = nombre
             return True, f'Bienvenid@ {self.username}, te registraste correctamente'
         except sqlite3.IntegrityError as e:
             print(f"SQLite IntegrityError: {e}")

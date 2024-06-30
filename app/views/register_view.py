@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 class RegisterView(ttk.Frame):
     def __init__(self, parent):
@@ -48,6 +48,9 @@ class RegisterView(ttk.Frame):
     def register(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
+        if password!= self.password2_entry.get():
+            messagebox.showerror("error","Las contraseñas no coinciden!")
+            return
         if self.parent.user_controller.register(username, password):
             self.parent.show_frame("IntroView")
 

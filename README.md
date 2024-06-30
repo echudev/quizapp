@@ -17,7 +17,19 @@ Seguí las instrucciones a continuación para configurarlo y activarlo en Window
 3. Ejecutá el siguiente comando:
 
     ```sh
-    setup_env_windows.bat
+    ./setup_env_windows.ps1
+    ```
+
+4. Para desactivar el entorno virtual, escribe el siguiente comando:
+
+    ```powershell
+    deactivate
+    ```
+
+5. Para activarlo nuevamente
+
+    ```powershell
+    .\env\Scripts\Activate.ps1
     ```
 
 ## Instrucciones para Linux
@@ -29,3 +41,19 @@ Seguí las instrucciones a continuación para configurarlo y activarlo en Window
     ```sh
     make
     ```
+
+4. Para desactivar el entorno virtual
+
+    ```sh
+    deactivate
+    ```
+
+5. Para reactivarlo:
+
+    ```sh
+    source env/bin/activate
+    ```
+
+## Eliminar entorno virtual
+
+Tanto en Windows como Linux, la manera más simple de eliminar el entorno virtual es eliminando la carpeta env

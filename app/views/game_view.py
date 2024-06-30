@@ -24,13 +24,24 @@ class GameView(ttk.Frame):
 
         self.enunciado = ttk.Label(self, text=self.preguntas[pregunta_actual].enunciado, font=("Arial", 18), wraplength=550, anchor='center')
         self.enunciado.pack(pady=20, padx=20)
-
+        
         self.respuesta_radiobuttons = []
-        for i, respuesta in enumerate(self.preguntas[pregunta_actual].respuestas):
-            respuesta = ttk.Radiobutton(self, text=f'{respuesta.texto}', variable=self.selected_option, value=i)
-            respuesta.pack(pady=10)
-            self.respuesta_radiobuttons.append(respuesta)
-
+        self.respuestas_frame = ttk.Frame(self)
+        self.respuestas_frame.pack(pady=20, padx=20)
+        for i, respuesta in enumerate(self.preguntas[pregunta_actual].respuestas):  
+            frame = ttk.Frame(self.respuestas_frame)
+            texto = ttk.Label(frame, text=respuesta.texto, font=("Arial", 14), wraplength=500)         
+            respuesta_btn = ttk.Radiobutton(
+                frame, 
+                text='', 
+                variable=self.selected_option, 
+                value=i, 
+                style='TRadiobutton'
+                )
+            respuesta_btn.pack(pady=10, side='left')
+            texto.pack(side='left')
+            frame.pack(fill='x', pady=5, anchor='w')
+            self.respuesta_radiobuttons.append(frame)
 
         self.next_button = ttk.Button(self, text='Siguiente', command=self.siguiente_pregunta)
         self.next_button.pack(pady=30, side="bottom")
@@ -42,17 +53,24 @@ class GameView(ttk.Frame):
 
         self.intro_label.config(text=f'Pregunta {contador}')
         self.enunciado.config(text=self.preguntas[pregunta_actual].enunciado)
-        self.next_button.pack_forget()
 
-        for button in self.respuesta_radiobuttons:
-            button.pack_forget()
-
-        self.respuesta_radiobuttons = []
-        for i, respuesta in enumerate(self.preguntas[pregunta_actual].respuestas):
-            respuesta_button = ttk.Radiobutton(self, text=f'{respuesta.texto}', variable=self.selected_option, value=i, style='TRadiobutton')
-            respuesta_button.pack(pady=10)
-            self.respuesta_radiobuttons.append(respuesta_button)
-        self.next_button.pack(pady=30, side="bottom")
+        for frames in self.respuesta_radiobuttons:
+            frames.destroy()
+        
+        for i, respuesta in enumerate(self.preguntas[pregunta_actual].respuestas):   
+            frame = ttk.Frame(self.respuestas_frame)
+            texto = ttk.Label(frame, text=respuesta.texto, font=("Arial", 14), wraplength=500)           
+            respuesta_btn = ttk.Radiobutton(
+                frame, 
+                text='', 
+                variable=self.selected_option, 
+                value=i, 
+                style='TRadiobutton'
+                )
+            respuesta_btn.pack(pady=10, side='left')
+            texto.pack(side='left')
+            frame.pack(fill='x', pady=5, anchor='w')
+            self.respuesta_radiobuttons.append(frame)
 
 
 

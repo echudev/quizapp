@@ -13,7 +13,7 @@ Seguí las instrucciones a continuación para configurarlo y activarlo en Window
 ## Instrucciones para Windows
 
 1. Abrí el símbolo del sistema (Command Prompt).
-2. Navegá al directorio del proyecto donde se encuentra `setup_env_windows.bat` y `requirements.txt`.
+2. Navegá al directorio del proyecto donde se encuentra `setup_env_windows.ps1` y `requirements.txt`.
 3. Ejecutá el siguiente comando:
 
     ```sh
